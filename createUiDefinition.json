@@ -414,7 +414,44 @@
                         }
                     }
                 ]
+            },
+			{
+                "name": "BDMServicesConfiguration",
+                "label": "BDM Services Configuration Settings",
+                "subLabel": {
+                    "preValidation": "BDM Services Configuration Settings Post Domain Creation",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "BDM Services Configuration Settings",
+                "elements": [
+							{
+                                "name": "mrsdatabaseName",
+                                "type": "Microsoft.Compute.UserNameTextBox",
+                                "label": "MRS Database name",
+                                "toolTip": "MRS database username for the machines",
+                                "osPlatform": "Windows",
+                                "constraints": {
+                                    "required": true
+                                }
+                            },
+                            {
+                                "name": "mrsdatabasePassword",
+                                "type": "Microsoft.Compute.CredentialsCombo",
+                                "label": {
+                                    "password": "Password",
+                                    "confirmPassword": "Confirm password"
+                                },
+                                "toolTip": {
+                                    "password": "password for the mrs database"
+                                },
+                                "osPlatform": "Windows",
+                                "constraints": {
+                                    "required": true
+                                }
+                            }
+                ]
             }
+			
         ],
 
         "outputs": {
