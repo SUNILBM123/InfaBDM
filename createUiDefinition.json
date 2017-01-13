@@ -424,19 +424,19 @@
                 },
                 "bladeTitle": "BDM Services Configuration Settings",
                 "elements": [
-							{
-                                "name": "mrsdatabaseName",
-                                "type": "Microsoft.Compute.UserNameTextBox",
-                                "label": "MRS Database name",
+					{
+                        "name": "mrsdatabaseName",
+                        "type": "Microsoft.Compute.UserNameTextBox",
+                        "label": "MRS Database name",
                                 "toolTip": "MRS database username for the machines",
                                 "osPlatform": "Windows",
                                 "constraints": {
                                     "required": true
-                                }
-                            },
-                            {
-                                "name": "mrsdatabasePassword",
-                                "type": "Microsoft.Compute.CredentialsCombo",
+                            }
+                        },       
+                    {       
+                      "name": "mrsdatabasePassword",
+                         "type": "Microsoft.Compute.CredentialsCombo",
                                 "label": {
                                     "password": "Password",
                                     "confirmPassword": "Confirm password"
@@ -447,8 +447,8 @@
                                 "osPlatform": "Windows",
                                 "constraints": {
                                     "required": true
-                                }
-                            }
+                             }          
+                    }
                 ]
             }
 			
