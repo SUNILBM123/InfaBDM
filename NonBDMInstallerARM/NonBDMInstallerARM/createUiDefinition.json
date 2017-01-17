@@ -179,7 +179,7 @@
                         "name": "infamrsuserName",
                         "type": "Microsoft.Common.TextBox",
                         "label": "MRS Username",
-                        "defaultValue": "MRS Username",
+                        "defaultValue": "MRSazureuser",
                         "toolTip": "MRS Username for Domain",
                         "constraints": {
                             "required": true,
@@ -192,7 +192,7 @@
                         "type": "Microsoft.Common.PasswordBox",
                         "label": {
                             "password": "Informatica BDM mrs password",
-                            "confirmPassword": "Informatica BDM mrs password1"
+                            "confirmPassword": "Informatica BDM Confirm mrs password"
                         },
                         "constraints": {
                             "required": true,
