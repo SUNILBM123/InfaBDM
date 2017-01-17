@@ -167,10 +167,10 @@
                 ]
             },			
 			{
-                "label": "Informatica BDM Services Settings",
+                "label": "Informatica BDM Services Setting",
                 "name": "infaDomainServicesConfiguration",
                 "subLabel": {
-                    "preValidation": "Informatica BDM Services Settings",
+                    "preValidation": "Configure MRS, DIS and BDM Parameters",
                     "postValidation": "Done"
                 },
                 "bladeTitle": "Informatica BDM Services Settings",
@@ -203,7 +203,116 @@
                             "hideConfirmation": false
                         }
 
+                    },
+                    {
+                        "name": "infamrsservicename",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "MRS  Service Name",
+                        "defaultValue": "MRS",
+                        "toolTip": "MRS Service Name for Domain",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "infadisservicename",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "DIS Service Name",
+                        "defaultValue": "DIS",
+                        "toolTip": "DIS Service Name for Domain",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "bdmhiveusername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Hive Username for BDM",
+                        "defaultValue": "hive",
+                        "toolTip": "Hive username for impersonation",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "bdmhdfsusername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "hdfs Username for BDM",
+                        "defaultValue": "hdfs",
+                        "toolTip": "HDFS username for impersonation",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "blazeusername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Blaze Username for BDM",
+                        "defaultValue": "blaze",
+                        "toolTip": "BLAZE username for impersonation",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "sparkeventlogdir",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "SPARK eventlog dir for BDM",
+                        "defaultValue": "/blaze/infa",
+                        "toolTip": "SPARK eventlog dir for BDM",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "sparparameterlist",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "spark parameter list for BDM",
+                        "defaultValue": "list1,list2",
+                        "toolTip": "spark parameter list for BDM",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "impersonationuser",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Impersonation user for BDM",
+                        "defaultValue": "bdmuser",
+                        "toolTip": "Impersonation user for BDM",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
+                    },
+                    {
+                        "name": "zookeperhost",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Zookeeper Host for BDM",
+                        "defaultValue": "host1,host2",
+                        "toolTip": "Zookeeper Host for BDM",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                        }
                     }
+                   
                    
                 ]
             },		
