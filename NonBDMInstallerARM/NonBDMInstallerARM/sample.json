@@ -470,7 +470,7 @@
                         ]
                     },
                     {
-                        "name": "databaseconfig",
+                        "name": "databaseconfig1",
                         "type": "Microsoft.Common.Section",
                         "label": "Hbase Database configuration",
                         "elements": [
@@ -490,7 +490,7 @@
                         ]
                     },
                     {
-                        "name": "databaseconfig",
+                        "name": "databaseconfig2",
                         "type": "Microsoft.Common.Section",
                         "label": "Hadoop Database configuration",
                         "elements": [
