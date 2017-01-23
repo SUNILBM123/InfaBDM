@@ -244,10 +244,66 @@
             "type": "string",
             "metadata": {
                 "description": "Base URL for Marketplace",
-                "artifactsBaseUrl": "https://raw.githubusercontent.com/vijayanand17/infapc10.1.1/master"
+                "artifactsBaseUrl": "https://raw.githubusercontent.com/vinay14111982/InfaInstaller_NonBDM/master/NonBDMInstallerARM/NonBDMInstallerARM/"
             },
-            "defaultValue": "https://raw.githubusercontent.com/vijayanand17/infapc10.1.1/master"
-        }
+            "defaultValue": "https://raw.githubusercontent.com/vinay14111982/InfaInstaller_NonBDM/master/NonBDMInstallerARM/NonBDMInstallerARM/"
+		},
+        "HDIClusterName": {
+            "type": "string"
+        },
+        "HDIClusterLoginUsername": {
+            "type": "string"
+        },
+        "HDIClusterLoginPassword": {
+            "type": "securestring"
+        },
+        "HDIClusterSSHHostname": {
+            "type": "string"
+        },
+        "HDIClusterSSHUsername": {
+            "type": "string"
+        },
+        "HDIClusterSSHPassword": {
+            "type": "securestring"
+        },
+		"hdfsusernamevar": {
+				"type": "string"
+		 },
+		"hbasezookeepernamevar": 
+				"type": "string"
+		 },  
+		"hbasezookeeperportvar": {
+				"type": "string"
+		},     
+		"connectionconfighadoopimpuservar": {
+				"type": "string"
+		},
+		"connectionconfighadoopblazeusernamevar": {
+				"type": "string"
+		 }, 
+		"connectionconfighadoopsparkdirvar": {
+				"type": "string"
+		 },
+		"connectionconfighadoopsparkeventlogdirvar": {
+				"type": "string"
+		 },   
+		 "connectionconfighadoopsparkparamvar": {
+				"type": "string"
+	   },
+	   "infamrsservicename": {
+				"type": "string"
+	   },
+	   "infadisservicename": {
+				"type": "string"
+	   },
+	   "infamrsuserName": {
+				"type": "string"
+	   },
+	   "infamrspassword": {
+				"type": "string"
+	   }
+	   
+	   
     },
     "variables": {
         "baseUri": "[concat(parameters('baseUrl'), '/')]",
@@ -479,7 +535,50 @@
                     },
                     "baseUrl": { 
                         "value": "[variables('baseUri')]"
-                    }
+                    },
+					"HDIClusterName": {
+					 "value": "[parameters('HDIClusterName')]"
+					},
+					"HDIClusterLoginUsername": {
+						 "value": "[parameters('HDIClusterLoginUsername')]"
+					},
+					"HDIClusterLoginPassword": {
+						 "value": "[parameters('HDIClusterLoginPassword')]"
+					},
+					"HDIClusterSSHHostname": {
+						 "value": "[parameters('HDIClusterSSHHostname')]"
+					},
+					"HDIClusterSSHUsername": {
+						 "value": "[parameters('HDIClusterSSHUsername')]"
+					},
+					"HDIClusterSSHPassword": {
+						 "value": "[parameters('HDIClusterSSHPassword')]"
+					},
+					"hdfsusernamevar": {
+					 "value": "[parameters('hdfsusernamevar')]"
+					},
+					"hbasezookeepernamevar": 
+							 "value": "[parameters('hbasezookeepernamevar')]"
+					 },  
+					"hbasezookeeperportvar": {
+							 "value": "[parameters('hbasezookeeperportvar')]"
+					},     
+					"connectionconfighadoopimpuservar": {
+							 "value": "[parameters('connectionconfighadoopimpuservar')]"
+					},
+					"connectionconfighadoopblazeusernamevar": {
+							 "value": "[parameters('connectionconfighadoopblazeusernamevar')]"
+					 }, 
+					"connectionconfighadoopsparkdirvar": {
+							 "value": "[parameters('connectionconfighadoopsparkdirvar')]"
+					 },
+					"connectionconfighadoopsparkeventlogdirvar": {
+							 "value": "[parameters('connectionconfighadoopsparkeventlogdirvar')]"
+					 },   
+					 "connectionconfighadoopsparkparamvar": {
+							 "value": "[parameters('connectionconfighadoopsparkparamvar')]"
+				   }
+	
                 }
             }
         }
