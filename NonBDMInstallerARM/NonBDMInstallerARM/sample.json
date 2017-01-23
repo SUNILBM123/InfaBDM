@@ -362,6 +362,96 @@
                     }
                 ]
             },
+
+
+             {
+                "label": "Informatica Big Data Management settings",
+                "name": "infaBDEConfiguration",
+                "subLabel": {
+                    "preValidation": "Configure the Informatica HDInsight Cluster settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Informatica Big Data Management settings",
+                "elements": [
+                    {
+                        "name": "HDIClusterName",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDInsight Cluster hostname",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDInsight cluster properties under settings",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^([a-zA-Z][a-z0-9A-Z\\-]{1,59})$",
+                            "validationMessage": "The name must be 59 characters or less and can contain letters, numbers, and hyphens (but the first and last character must be a letter or number). The name can not contain a reserved key word."
+                        }
+                    },
+                    {
+                        "name": "HDIClusterLoginUsername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDInsight Cluster Login Username",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDInsight cluster login under settings. This is usually the credential to login into Ambari",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^([a-zA-Z][a-z0-9A-Z\\-\\!\\#\\$\\%\\&\\'\\(\\)\\-\\^\\_\\`\\{\\}\\~]{2,100})$",
+                            "validationMessage": "The username must be at least two characters in length and can only consist of digits, upper or lowercase letters, and/or the following special characters: ! # $ % & ' ( ) - ^ _ ` { } ~"
+                        }
+                    },
+                    {
+                        "name": "HDIClusterLoginPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": "HDInsight Cluster Login Password",
+                        "defaultValue": "",
+                        "toolTip": "Check the HDInsight cluster login under settings. This is usually the credential to login into Ambari",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
+                            "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHHostname",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDInsight Cluster SSH hostname",
+                        "defaultValue": "hostname-ssh.azurehdinsight.net",
+                        "toolTip": "HDInsight cluster's headnode SSH hostname",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^([a-zA-Z][a-z0-9A-Z.\\-]{1,59})$",
+                            "validationMessage": "The name can contain letters, numbers, and hyphens and followed by .azurehdinsight.net"
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHUsername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HDInsight Cluster SSH Username",
+                        "defaultValue": "",
+                        "toolTip": "HDInsight cluster's headnode SSH username",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^([a-zA-Z][a-z0-9A-Z\\-\\#\\$\\%\\&\\'\\(\\)\\-\\^\\_\\`\\{\\}\\~]{2,100})$",
+                            "validationMessage": "The SSH username must be at least two characters in length and can only consist of digits, upper or lowercase letters, and/or the following special characters: # $ % & ' ( ) - ^ _ ` { } ~"
+                        }
+                    },
+                    {
+                        "name": "HDIClusterSSHPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": "HDInsight Cluster SSH Password",
+                        "defaultValue": "",
+                        "toolTip": "HDInsight cluster's headnode SSH password",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
+                            "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+
+                        }
+                    }
+                   
+                   
+                    
+                    
+                ]
+            },
             {
                 "label": "Informatica BDM Services Setting",
                 "name": "infaDomainServicesConfiguration",
@@ -399,7 +489,7 @@
                         "name": "infamrsuserName",
                         "type": "Microsoft.Common.TextBox",
                         "label": "MRS Database Username",
-                        "defaultValue": "MRSazureuser",
+                        "defaultValue": "mrsuser",
                         "toolTip": "MRS DataBase username for ",
                         "constraints": {
                             "required": true,
@@ -433,80 +523,147 @@
                     "preValidation": "Configure BDM Connection settings",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Configure BDM Connection Setting",
+                "bladeTitle": "Configure BDM Connection ",
                 "elements": [
+                  
                     {
-                        "name": "databaseconfig",
+                        "name": "connectionconfighdfs",
                         "type": "Microsoft.Common.Section",
-                        "label": "Hive Database configuration",
+                        "label": "HDFS Connection configuration",
                         "elements": [
                             {
-
-                                "name": "bdmhiveusername",
+                                "name": "hdfsusername",
                                 "type": "Microsoft.Common.TextBox",
-                                "label": "Hive Username for BDM",
-                                "defaultValue": "hive",
-                                "toolTip": "Hive username for impersonation",
+                                "label": "HDFS User Name",
+                                "defaultValue": "hdfs",
+                                "toolTip": "HDFS username for impersonation",
                                 "constraints": {
                                     "required": true,
                                     "regex": "^[a-z0-9A-Z_]{3,30}$",
                                     "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
                                 }
+
+                            }
+                        ]
+                    },
+                      {
+                        "name": "connectionconfighbase",
+                        "type": "Microsoft.Common.Section",
+                        "label": "HBase Connection configuration",
+                        "elements": [
+                            {
+                                "name": "hbasezookeepername",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "HBase Zookeeper Hosts",
+                                "defaultValue": "zookeeper_Hosts",
+                                "toolTip": "Hosts Names for Zookeeper, must be a comma saperated Values",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^[a-z0-9A-Z]$",
+                                    "validationMessage": "Only alphanumeric characters are allowed."
+                                }
+
                             },
                             {
-                                "name": "bdmhdfsusername",
+                                "name": "hbasezookeeperport",
                                 "type": "Microsoft.Common.TextBox",
-                                "label": "Hive Username for BDM",
-                                "defaultValue": "hdfs",
-                                "toolTip": "HDFS username for impersonation",
+                                "label": "HBase Zookeeper Port",
+                                "defaultValue": "2181",
+                                "toolTip": "Zookeeper Port for Hbase",
                                 "constraints": {
                                     "required": true,
-                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
-                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                                }
-
-
-                            }
-                        ]
-                    },
-                    {
-                        "name": "databaseconfig1",
-                        "type": "Microsoft.Common.Section",
-                        "label": "Hbase Database configuration",
-                        "elements": [
-                            {
-                                "name": "bdmhdfsusername",
-                                "type": "Microsoft.Common.TextBox",
-                                "label": "hdfs Username for BDM",
-                                "defaultValue": "hdfs",
-                                "toolTip": "HDFS username for impersonation",
-                                "constraints": {
-                                    "required": true,
-                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
-                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                    "regex": "^[0-9]$",
+                                    "validationMessage": "Only numbers are allowed."
                                 }
 
                             }
                         ]
                     },
                     {
-                        "name": "databaseconfig2",
+                        "name": "connectionconfighadoop",
                         "type": "Microsoft.Common.Section",
-                        "label": "Hadoop Database configuration",
+                        "label": "Hadoop Connection configuration",
                         "elements": [
                             {
-                                "name": "bdmhdfsusername",
+                                "name": "connectionconfighadoopimpuser",
                                 "type": "Microsoft.Common.TextBox",
-                                "label": "hdfs Username for BDM",
-                                "defaultValue": "hdfs",
-                                "toolTip": "HDFS username for impersonation",
+                                "label": "Hadoop Impersonation User Name",
+                                "defaultValue": "hadoop",
+                                "toolTip": "Impersonation User Name for hadoop Connection to run mappings",
                                 "constraints": {
                                     "required": true,
                                     "regex": "^[a-z0-9A-Z_]{3,30}$",
                                     "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
                                 }
 
-                            }
+                            },
+                            {
+                                "name": "connectionconfighadoopblazetempdir",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Blaze Working Dir",
+                                "defaultValue": "/blaze/workdir",
+                                "toolTip": "Hadoop Blaze temporary working directory",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            },
+                            {
+                                "name": "connectionconfighadoopblazeusername",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Blaze Service UserName",
+                                "defaultValue": "blaze",
+                                "toolTip": "Hadoop Blaze Service user name to impersonate the user to run mapping",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            },
+                            {
+                                "name": "connectionconfighadoopsparkdir",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Spark HDFS staging directory",
+                                "defaultValue": "/tmp/sparkdir",
+                                "toolTip": "Hadoop Spark HDFS staging directory ",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }, 
+                            {
+                                "name": "connectionconfighadoopsparkeventlogdir",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Spark Event Log Directory",
+                                "defaultValue": "",
+                                "toolTip": "Hadoop Spark Event Log Directory ",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }, 
+                            {
+                                "name": "connectionconfighadoopsparkparam",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Spark Execution Parameters",
+                                "defaultValue": "",
+                                "toolTip": "Hadoop Spark Execution Parameters",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }  
+
+
                         ]
                     }
                 ]
@@ -598,7 +755,24 @@
                     "vnetExistingOrNew": "[steps('infraConfiguration').infavnet.newOrExisting]",
                     "existingVnetRG": "[steps('infraConfiguration').infavnet.resourceGroup]",
                     "subnetName": "[steps('infraConfiguration').infavnet.subnets.subnet1.name]",
-                    "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]"
+                    "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",                        
+                    "hdfsusernamevar": "[steps('connectionconfighdfs').hdfsusername]",
+                    "hbasezookeepernamevar": "[steps('connectionconfighbase').hbasezookeepername]",
+                    "hbasezookeeperportvar": "[steps('connectionconfighbase').hbasezookeeperport]",
+                    "connectionconfighadoopimpuservar": "[steps('connectionconfighadoop').connectionconfighadoopimpuser]",
+                    "connectionconfighadoopblazetempdirvar": "[steps('connectionconfighadoop').connectionconfighadoopblazetempdir]",
+                    "connectionconfighadoopblazeusernamevar": "[steps('connectionconfighadoop').connectionconfighadoopblazeusername]",
+                    "connectionconfighadoopsparkdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkdir]",
+                    "connectionconfighadoopsparkeventlogdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkeventlogdir]",
+                    "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",
+                    "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
+			        "HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
+			        "HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
+			        "HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
+			        "HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
+			        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]"         
+
+
                 }
             }
     }
