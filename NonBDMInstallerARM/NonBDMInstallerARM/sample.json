@@ -93,7 +93,7 @@
                         "label": "Informatica license file",
                         "toolTip": "",
                         "constraints": {
-                            "required": false,
+                            "required": true,
                             "accept": ".key"
                         },
                         "options": {
@@ -408,6 +408,9 @@
                             "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
                             "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
                         }
+						 "options": {
+                                    "hideConfirmation": true
+                          }
                     },
                     {
                         "name": "HDIClusterSSHHostname",
@@ -445,6 +448,9 @@
                             "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
 
                         }
+						 "options": {
+                                    "hideConfirmation": true
+                          }
                     }
                    
                    
@@ -755,7 +761,8 @@
                     "vnetExistingOrNew": "[steps('infraConfiguration').infavnet.newOrExisting]",
                     "existingVnetRG": "[steps('infraConfiguration').infavnet.resourceGroup]",
                     "subnetName": "[steps('infraConfiguration').infavnet.subnets.subnet1.name]",
-                    "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",                        
+                    "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",   
+					
                     "hdfsusernamevar": "[steps('connectionconfighdfs').hdfsusername]",
                     "hbasezookeepernamevar": "[steps('connectionconfighbase').hbasezookeepername]",
                     "hbasezookeeperportvar": "[steps('connectionconfighbase').hbasezookeeperport]",
@@ -765,12 +772,24 @@
                     "connectionconfighadoopsparkdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkdir]",
                     "connectionconfighadoopsparkeventlogdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkeventlogdir]",
                     "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",
+					
                     "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
 			        "HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
 			        "HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
 			        "HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
 			        "HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
-			        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]"         
+			        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
+
+					"infamrsservicename": "[steps('infaDomainServicesConfiguration').infamrsservicename]",
+					"infadisservicename": "[steps('infaDomainServicesConfiguration').infadisservicename]",
+					"infamrsuserName": "[steps('infaDomainServicesConfiguration').infamrsuserName]",
+					"infamrspassword": "[steps('infaDomainServicesConfiguration').infamrspassword]"					
+
+
+
+
+
+					
 
 
                 }
