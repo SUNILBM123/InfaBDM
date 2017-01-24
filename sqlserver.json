@@ -43,18 +43,6 @@
         },
         "baseUrl": {
             "type": "string"
-        },
-        "_artifactsLocation": {
-            "type": "string",
-            "metadata": {
-                "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
-            }
-        },
-        "_artifactsLocationSasToken": {
-            "type": "securestring",
-            "metadata": {
-                "description": "Auto-generated token to access _artifactsLocation"
-            }
         }
     },
     "variables": {
@@ -70,10 +58,7 @@
         "imagePublisher": "informatica",
         "imageOffer": "sqlserver-2014-image",
         "osVersion": "sqlserver-2014-image-for-pc-bdm",
-        "MRSUserScriptFolder": "CustomScripts",
-        "MRSUserScriptFileName": "MRSUser.ps1",
-        "MRSUser2ScriptFolder": "CustomScripts",
-        "MRSUser2ScriptFileName": "MRSUser2.sh"
+        
     },
     "resources": [
         {

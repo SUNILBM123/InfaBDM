@@ -1,102 +1,10 @@
 ﻿{
     "handler": "Microsoft.Compute.MultiVm",
-    "version": "0.0.1-preview",
+    "version": "0.1.2-preview",
     "parameters": {
         "basics": [
         ],
         "steps": [
-            {
-                "name": "nodeVMConfiguration",
-                "label": "Node Settings",
-                "subLabel": {
-                    "preValidation": "Configure machine settings for the node",
-                    "postValidation": "Done"
-                },
-                "bladeTitle": "Node Settings",
-                "elements": [
-                    {
-                        "name": "domainNodeCount",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Number of nodes",
-                        "defaultValue": "2",
-                        "toolTip": "",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^(([1-3]?[1-9]$)|([1-3][0]$)){1,2}",
-                            "validationMessage": "Only postive number is allowed. Should be less than or equal to 39"
-                        }
-                    },
-                    {
-                        "name": "nodeVMPrefix",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Machine prefix",
-                        "defaultValue": "VM",
-                        "toolTip": "Prefix for machine name",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^([a-zA-Z][a-z0-9A-Z\\-]{1,29})$",
-                            "validationMessage": "Host prefix should begin with alphabets. Only alphanumeric characters, and hyphen are allowed. The value must be 2-29 characters long"
-                        }
-                    },
-                    {
-                        "name": "nodeVMAdminUsername",
-                        "type": "Microsoft.Compute.UserNameTextBox",
-                        "label": "Username",
-                        "toolTip": "Administrator username for machine",
-                        "osPlatform": "Linux",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
-                    {
-                        "name": "nodeVMAdminPassword",
-                        "type": "Microsoft.Compute.CredentialsCombo",
-                        "label": {
-                            "password": "Password",
-                            "confirmPassword": "Confirm password",
-                            "sshPublicKey": "SSH public key"
-                        },
-                        "toolTip": {
-                            "authenticationType": "",
-                            "password": "Administrator password for the machines",
-                            "sshPublicKey": "Administrator public key for the machines"
-                        },
-                        "osPlatform": "Linux",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
-                    {
-                        "name": "nodeVMSize",
-                        "type": "Microsoft.Compute.SizeSelector",
-                        "label": "Machine size",
-                        "toolTip": "The size of the machine",
-                        "recommendedSizes": [
-                            "Standard_DS11",
-                            "Standard_DS2"
-                        ],
-                        "constraints": {
-                            "allowedSizes": [
-                                "Standard_DS1",
-                                "Standard_DS2",
-                                "Standard_DS3",
-                                "Standard_DS4",
-                                "Standard_DS11",
-                                "Standard_DS12",
-                                "Standard_DS13",
-                                "Standard_DS14",
-                                "Standard_GS1",
-                                "Standard_GS2",
-                                "Standard_GS3",
-                                "Standard_GS4",
-                                "Standard_GS5"
-                            ]
-                        },
-                        "osPlatform": "Linux",
-                        "count": "[steps('nodeVMConfiguration').domainNodeCount]"
-                    }
-                ]
-            },
             {
                 "label": "Informatica Domain Settings",
                 "name": "infaDomainConfiguration",
@@ -106,6 +14,21 @@
                 },
                 "bladeTitle": "Informatica Domain Settings",
                 "elements": [
+                    {
+                        "name": "infaVersion",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Informatica PowerCenter version",
+                        "defaultValue": "10.1.1",
+                        "toolTip": "Informatica PowerCenter product version.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "10.1.1",
+                                    "value": "1011"
+                                }
+                            ]
+                        }
+                    },
                     {
                         "name": "infaDomainName",
                         "type": "Microsoft.Common.TextBox",
@@ -139,8 +62,8 @@
                         },
                         "constraints": {
                             "required": true,
-                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{8,123}$",
-                            "validationMessage": "Password must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character"
+                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w])(?!.*[\"$]).{8,123}$",
+                            "validationMessage": "Password must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character. Double quote(\") and dollar($) is not allowed"
                         },
                         "options": {
                             "hideConfirmation": false
@@ -157,166 +80,167 @@
                         },
                         "constraints": {
                             "required": true,
-                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{8,123}$",
-                            "validationMessage": "Keyphrase must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character"
+                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w])(?!.*[\"$]).{8,123}$",
+                            "validationMessage": "Keyphrase must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character. Double quote(\") and dollar($) is not allowed"
                         },
                         "options": {
                             "hideConfirmation": true
                         }
-                    }
-                ]
-            },			
-			{
-                "label": "Informatica BDM Services Setting",
-                "name": "infaDomainServicesConfiguration",
-                "subLabel": {
-                    "preValidation": "Configure MRS, DIS and BDM Parameters",
-                    "postValidation": "Done"
-                },
-                "bladeTitle": "Informatica BDM Services Settings",
-                "elements": [
+                    },
                     {
-                        "name": "infamrsuserName",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "MRS Username",
-                        "defaultValue": "MRSazureuser",
-                        "toolTip": "MRS Username for Domain",
+                        "name": "infaDomainLicense",
+                        "type": "Microsoft.Common.FileUpload",
+                        "label": "Informatica license file",
+                        "toolTip": "",
                         "constraints": {
                             "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                            "accept": ".key"
+                        },
+                        "options": {
+                            "multiple": false,
+                            "uploadMode": "url",
+                            "openMode": "text",
+                            "encoding": "UTF-8"
+                        },
+                        "visible": true
+                    }
+                ]
+            },
+            {
+                "name": "nodeVMConfiguration",
+                "label": "Node Settings",
+                "subLabel": {
+                    "preValidation": "Configure machine settings for the node",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Node Settings",
+                "elements": [
+                    {
+                        "name": "nodeVMOS",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Select the OS for the VM",
+                        "defaultValue": "Windows Server 2012 R2 Datacenter",
+                        "toolTip": "OS platform of the VM.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Windows Server 2012 R2 Datacenter",
+                                    "value": "windows"
+                                },
+                                {
+                                    "label": "Red Hat Enterprise Linux 7.3",
+                                    "value": "linux"
+                                }
+                            ]
                         }
                     },
                     {
-                        "name": "infamrspassword",
-                        "type": "Microsoft.Common.PasswordBox",
-                        "label": {
-                            "password": "Informatica BDM mrs password",
-                            "confirmPassword": "Informatica BDM Confirm mrs password"
-                        },
+                        "name": "domainNodeCount",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Number of nodes",
+                        "defaultValue": "2",
+                        "toolTip": "",
                         "constraints": {
                             "required": true,
-                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{8,123}$",
-                            "validationMessage": "Password must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character"
+                            "regex": "^(([1-3]?[1-9]$)|([1-3][0]$)){1,2}",
+                            "validationMessage": "Only postive number is allowed. Should be less than or equal to 39"
+                        }
+                    },
+                    {
+                        "name": "nodeVMPrefix",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Machine prefix",
+                        "defaultValue": "VM",
+                        "toolTip": "Prefix for machine name",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^([a-zA-Z][a-z0-9A-Z\\-]{1,29})$",
+                            "validationMessage": "Host prefix should begin with alphabets. Only alphanumeric characters, and hyphen are allowed. The value must be 2-29 characters long"
+                        }
+                    },
+                    {
+                        "name": "nodeVMAdminUsernameWin",
+                        "type": "Microsoft.Compute.UserNameTextBox",
+                        "label": "VM Username",
+                        "toolTip": "Admin username for the virtual machines.",
+                        "osPlatform": "Windows",
+                        "constraints": {
+                            "required": true
+                        },
+                        "visible": "[equals(steps('nodeVMConfiguration').nodeVMOS, 'windows')]"
+                    },
+                    {
+                        "name": "nodeVMAdminUsernameLin",
+                        "type": "Microsoft.Compute.UserNameTextBox",
+                        "label": "VM Username",
+                        "toolTip": "Admin username for the virtual machines.",
+                        "osPlatform": "Linux",
+                        "constraints": {
+                            "required": true
+                        },
+                        "visible": "[equals(steps('nodeVMConfiguration').nodeVMOS, 'linux')]"
+                    },
+                    {
+                        "name": "nodeVMAdminPasswordWin",
+                        "type": "Microsoft.Compute.CredentialsCombo",
+                        "label": {
+                            "password": "Password",
+                            "confirmPassword": "Confirm password"
+                        },
+                        "toolTip": {
+                            "password": ""
+                        },
+                        "constraints": {
+                            "required": true
                         },
                         "options": {
                             "hideConfirmation": false
-                        }
-
+                        },
+                        "osPlatform": "Windows",
+                        "visible": "[equals(steps('nodeVMConfiguration').nodeVMOS, 'windows')]"
                     },
                     {
-                        "name": "infamrsservicename",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "MRS  Service Name",
-                        "defaultValue": "MRS",
-                        "toolTip": "MRS Service Name for Domain",
+                        "name": "nodeVMAdminPasswordLin",
+                        "type": "Microsoft.Compute.CredentialsCombo",
+                        "label": {
+                            "authenticationType": "Authentication type",
+                            "password": "Password",
+                            "confirmPassword": "Confirm password",
+                            "sshPublicKey": "SSH public key"
+                        },
+                        "toolTip": {
+                            "authenticationType": "",
+                            "password": "",
+                            "sshPublicKey": ""
+                        },
                         "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
+                            "required": true
+                        },
+                        "options": {
+                            "hideConfirmation": false,
+                            "hidePassword": false
+                        },
+                        "osPlatform": "Linux",
+                        "visible": "[equals(steps('nodeVMConfiguration').nodeVMOS, 'linux')]"
                     },
                     {
-                        "name": "infadisservicename",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "DIS Service Name",
-                        "defaultValue": "DIS",
-                        "toolTip": "DIS Service Name for Domain",
+                        "name": "nodeVMSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "Machine size",
+                        "toolTip": "The size of the machine",
+                        "recommendedSizes": [
+                            "Standard_DS11",
+                            "Standard_DS11_v2",
+                            "Standard_DS2",
+                            "Standard_DS2_v2"
+                        ],
                         "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "bdmhiveusername",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Hive Username for BDM",
-                        "defaultValue": "hive",
-                        "toolTip": "Hive username for impersonation",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "bdmhdfsusername",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "hdfs Username for BDM",
-                        "defaultValue": "hdfs",
-                        "toolTip": "HDFS username for impersonation",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "blazeusername",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Blaze Username for BDM",
-                        "defaultValue": "blaze",
-                        "toolTip": "BLAZE username for impersonation",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "sparkeventlogdir",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "SPARK eventlog dir for BDM",
-                        "defaultValue": "/blaze/infa",
-                        "toolTip": "SPARK eventlog dir for BDM",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "sparparameterlist",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "spark parameter list for BDM",
-                        "defaultValue": "list1,list2",
-                        "toolTip": "spark parameter list for BDM",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "impersonationuser",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Impersonation user for BDM",
-                        "defaultValue": "bdmuser",
-                        "toolTip": "Impersonation user for BDM",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "zookeperhost",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Zookeeper Host for BDM",
-                        "defaultValue": "host1,host2",
-                        "toolTip": "Zookeeper Host for BDM",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
-                        }
+                        },
+                        "osPlatform": "Windows",
+                        "count": "[steps('nodeVMConfiguration').domainNodeCount]"
                     }
-                   
-                   
                 ]
-            },		
-			
+            },
             {
                 "name": "databaseConfiguration",
                 "label": "Database Settings",
@@ -327,118 +251,120 @@
                 "bladeTitle": "Database Settings",
                 "elements": [
                     {
-                        "name": "databaseType",
-                        "type": "Microsoft.Common.DropDown",
-                        "label": "Database type",
-                        "defaultValue": "SQL Server 2014",
-                        "toolTip": "",
-                        "constraints": {
-                            "allowedValues": [
-                                {
-                                    "label": "SQL Server 2014",
-                                    "value": "sqlserver"
+                        "name": "databaseconfig",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Database configuration",
+                        "elements": [
+                            {
+                                "name": "databaseType",
+                                "type": "Microsoft.Common.DropDown",
+                                "label": "Database type",
+                                "defaultValue": "SQL Server 2014",
+                                "toolTip": "",
+                                "constraints": {
+                                    "allowedValues": [
+                                        {
+                                            "label": "SQL Server 2014",
+                                            "value": "sqlserver"
+                                        }
+                                    ]
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                "name": "databaseName",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Database machine name",
+                                "defaultValue": "DVM",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^([a-zA-Z][a-z0-9A-Z\\-]{2,30})$",
+                                    "validationMessage": "Only alphanumeric characters, and hyphen are allowed. The value must be 3-30 characters long"
+                                },
+                                "options": { }
+                            },
+                            {
+                                "name": "dbVMAdminUsername",
+                                "type": "Microsoft.Compute.UserNameTextBox",
+                                "label": "Username",
+                                "toolTip": "Admin username for the machines",
+                                "osPlatform": "Windows",
+                                "constraints": {
+                                    "required": true
+                                }
+                            },
+                            {
+                                "name": "dbVMAdminPassword",
+                                "type": "Microsoft.Compute.CredentialsCombo",
+                                "label": {
+                                    "password": "Password",
+                                    "confirmPassword": "Confirm password"
+                                },
+                                "toolTip": {
+                                    "password": "Admin password for the machines"
+                                },
+                                "osPlatform": "Windows",
+                                "constraints": {
+                                    "required": true
+                                }
+                            },
+                            {
+                                "name": "databaseVMSize",
+                                "type": "Microsoft.Compute.SizeSelector",
+                                "label": "Database  machine size",
+                                "toolTip": "The size of machine for database",
+                                "recommendedSizes": [
+                                    "Standard_DS3",
+                                    "Standard_DS3_v2",
+                                    "Standard_DS4",
+                                    "Standard_DS4_v2"
+                                ],
+                                "constraints": {
+                                },
+                                "osPlatform": "Windows",
+                                "count": 1
+                            }
+                        ]
                     },
                     {
-                        "name": "databaseName",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Database  machine name",
-                        "defaultValue": "DVM",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^([a-zA-Z][a-z0-9A-Z\\-]{2,30})$",
-                            "validationMessage": "Only alphanumeric characters, and hyphen are allowed. The value must be 3-30 characters long"
-                        },
-                        "options": { }
-                    },
-                    {
-                        "name": "databaseVMSize",
-                        "type": "Microsoft.Compute.SizeSelector",
-                        "label": "Database machine size",
-                        "toolTip": "The size of machine for database",
-                        "recommendedSizes": [
-                            "Standard_DS3",
-                            "Standard_DS4",
-                            "Standard_DS5"
-                        ],
-                        "constraints": {
-                            "allowedSizes": [
-                                "Standard_DS1",
-                                "Standard_DS2",
-                                "Standard_DS3",
-                                "Standard_DS4",
-                                "Standard_DS11",
-                                "Standard_DS12",
-                                "Standard_DS13",
-                                "Standard_DS14",
-                                "Standard_GS1",
-                                "Standard_GS2",
-                                "Standard_GS3",
-                                "Standard_GS4",
-                                "Standard_GS5"
-                            ]
-                        },
-                        "osPlatform": "Windows",
-                        "count": 1
-                    },
-                    {
-                        "name": "dbVMAdminUsername",
-                        "type": "Microsoft.Compute.UserNameTextBox",
-                        "label": "Username",
-                        "toolTip": "Admin username for the  machines",
-                        "osPlatform": "Windows",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
-                    {
-                        "name": "dbVMAdminPassword",
-                        "type": "Microsoft.Compute.CredentialsCombo",
-                        "label": {
-                            "password": "Password",
-                            "confirmPassword": "Confirm password"
-                        },
-                        "toolTip": {
-                            "password": "Admin password for the  machines"
-                        },
-                        "osPlatform": "Windows",
-                        "constraints": {
-                            "required": true
-                        }
-                    },
-                    {
-                        "name": "infaDomainDBUser",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Informatica domain DB user",
-                        "defaultValue": "",
-                        "toolTip": "Database user to be created for communication between Domain and Domain database",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9A-Z_]{3,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 3-30"
-                        }
-                    },
-                    {
-                        "name": "infaDomainDBPassword",
-                        "type": "Microsoft.Common.PasswordBox",
-                        "label": {
-                            "password": "Informatica domain DB password",
-                            "confirmPassword": "Confirm Informatica domain DB password"
-                        },
-                        "constraints": {
-                            "required": true,
-                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{8,123}$",
-                            "validationMessage": "Password must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character"
-                        },
-                        "options": {
-                            "hideConfirmation": false
-                        }
+                        "name": "databaseuser",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Database user",
+                        "elements": [
+                            {
+                                "name": "infaDomainDBUser",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Informatica domain DB user",
+                                "defaultValue": "",
+                                "toolTip": "Database user to be created for communication between Domain and Domain database",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 3-30"
+                                }
+                            },
+                            {
+                                "name": "infaDomainDBPassword",
+                                "type": "Microsoft.Common.PasswordBox",
+                                "label": {
+                                    "password": "Informatica domain DB password",
+                                    "confirmPassword": "Confirm Informatica domain DB password"
+                                },
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w])(?!.*[\"$]).{8,123}$",
+                                    "validationMessage": "Password must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character. Double quote(\") and dollar($) is not allowed"
+                                },
+                                "options": {
+                                    "hideConfirmation": false
+                                }
+                            }
+                        ]
                     }
                 ]
             },
-            {
+
+
+             {
                 "label": "Informatica Big Data Management settings",
                 "name": "infaBDEConfiguration",
                 "subLabel": {
@@ -481,7 +407,10 @@
                             "required": true,
                             "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
                             "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
-                        }
+                        },
+						 "options": {
+                                    "hideConfirmation": true
+                          }
                     },
                     {
                         "name": "HDIClusterSSHHostname",
@@ -518,145 +447,343 @@
                             "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
                             "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
 
+                        },
+						 "options": {
+                                    "hideConfirmation": true
+                          }
+                    }
+                   
+                   
+                    
+                    
+                ]
+            },
+            {
+                "label": "Informatica BDM Services Setting",
+                "name": "infaDomainServicesConfiguration",
+                "subLabel": {
+                    "preValidation": "Configure MRS, DIS for BDM",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Informatica BDM Services Settings",
+                "elements": [
+                    {
+                        "name": "infamrsservicename",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "MRS Service Name",
+                        "defaultValue": "MRS",
+                        "toolTip": "MRS Service Name for Domain",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
                         }
                     },
                     {
-                        "name": "Clusterjobhistory",
+                        "name": "infadisservicename",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "mapreduce.jobhistory.address",
-                        "defaultValue": "HOSTNAME:10020",
-                        "toolTip": "MapReduce JobHistory Server IPC host:port. Check Map reduce configuration in Ambari.",
+                        "label": "DIS Service Name",
+                        "defaultValue": "DIS",
+                        "toolTip": "DIS Service Name for Domain",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
                         }
                     },
                     {
-                        "name": "Clusterjobhistorywebapp",
+                        "name": "infamrsuserName",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "mapreduce.jobhistory.webapp.address",
-                        "defaultValue": "HOSTNAME:19888",
-                        "toolTip": "MapReduce JobHistory Server Web UI host:port. Check Map reduce configuration in Ambari.",
+                        "label": "MRS Database Username",
+                        "defaultValue": "mrsuser",
+                        "toolTip": "MRS DataBase username for ",
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
                         }
                     },
                     {
-                        "name": "ClusterRMSaddress",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "yarn.resourcemanager.scheduler.address",
-                        "defaultValue": "HOSTNAME:8030",
-                        "toolTip": "Resource Manager scheduler address host:port. Check yarn configuration in Ambari.",
+                        "name": "infamrspassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": {
+                            "password": "MRS Database password",
+                            "confirmPassword": "MRS Database Confirm password"
+                        },
                         "constraints": {
-                            "required": true
+                            "required": true,
+                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{8,123}$",
+                            "validationMessage": "Password must be at least 8 characters in length. Should contain at least one special character, number, upper-case and lower-case character"
+                        },
+                        "options": {
+                            "hideConfirmation": false
                         }
-                    },
-                    {
-                        "name": "ClusterRMWaddress",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "yarn.resourcemanager.webapp.address",
-                        "defaultValue": "HOSTNAME:8088",
-                        "toolTip": "Resource Manager scheduler web app address host:port. Check yarn configuration in Ambari.",
-                        "constraints": {
-                            "required": true
-                        }
+
                     }
                 ]
             },
             {
-                "name": "infraConfiguration",
-                "label": "Infrastructure Settings",
+                "name": "bdmconnectionConfiguration",
+                "label": "BDM Connection Settings",
                 "subLabel": {
-                    "preValidation": "Configure Storage and VNET settings",
+                    "preValidation": "Configure BDM Connection settings",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Infrastructure Settings",
+                "bladeTitle": "Configure BDM Connection ",
                 "elements": [
+                  
                     {
-                        "name": "storageAccount",
-                        "type": "Microsoft.Storage.StorageAccountSelector",
-                        "label": "Storage account",
-                        "toolTip": "Storage account used for the machines",
-                        "defaultValue": {
-                            "type": "Standard_LRS"
-                        }
+                        "name": "connectionconfighdfs",
+                        "type": "Microsoft.Common.Section",
+                        "label": "HDFS Connection configuration",
+                        "elements": [
+                            {
+                                "name": "hdfsusername",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "HDFS User Name",
+                                "defaultValue": "hdfs",
+                                "toolTip": "HDFS username for impersonation",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }
+                        ]
+                    },
+                      {
+                        "name": "connectionconfighbase",
+                        "type": "Microsoft.Common.Section",
+                        "label": "HBase Connection configuration",
+                        "elements": [
+                            {
+                                "name": "hbasezookeepername",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "HBase Zookeeper Hosts",
+                                "defaultValue": "zookeeper_Hosts",
+                                "toolTip": "Hosts Names for Zookeeper, must be a comma saperated Values",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^[a-z0-9A-Z]$",
+                                    "validationMessage": "Only alphanumeric characters are allowed."
+                                }
+
+                            },
+                            {
+                                "name": "hbasezookeeperport",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "HBase Zookeeper Port",
+                                "defaultValue": "2181",
+                                "toolTip": "Zookeeper Port for Hbase",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^[0-9]$",
+                                    "validationMessage": "Only numbers are allowed."
+                                }
+
+                            }
+                        ]
                     },
                     {
-                        "name": "infavnet",
-                        "type": "Microsoft.Network.VirtualNetworkCombo",
-                        "label": {
-                            "virtualNetwork": "Virtual network",
-                            "subnets": "Subnets"
-                        },
-                        "toolTip": {
-                            "virtualNetwork": "Select the same virtual network that HDInsight Cluster is part of",
-                            "subnets": ""
-                        },
-                        "defaultValue": {
-                            "name": "InfaVNET",
-                            "addressPrefixSize": "/16"
-                        },
-                        "constraints": {
-                            "minAddressPrefixSize": "/30"
-                        },
-                        "subnets": {
-                            "subnet1": {
-                                "label": "Subnet",
-                                "defaultValue": {
-                                    "name": "InfaSubnet",
-                                    "addressPrefixSize": "/24"
-                                },
+                        "name": "connectionconfighadoop",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Hadoop Connection configuration",
+                        "elements": [
+                            {
+                                "name": "connectionconfighadoopimpuser",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Impersonation User Name",
+                                "defaultValue": "hadoop",
+                                "toolTip": "Impersonation User Name for hadoop Connection to run mappings",
                                 "constraints": {
-                                    "minAddressPrefixSize": "/30",
-                                    "minAddressCount": "[add(steps('nodeVMConfiguration').domainNodeCount, 1)]",
-                                    "requireContiguousAddresses": true
+                                    "required": true,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            },
+                            {
+                                "name": "connectionconfighadoopblazetempdir",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Blaze Working Dir",
+                                "defaultValue": "/blaze/workdir",
+                                "toolTip": "Hadoop Blaze temporary working directory",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            },
+                            {
+                                "name": "connectionconfighadoopblazeusername",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Blaze Service UserName",
+                                "defaultValue": "blaze",
+                                "toolTip": "Hadoop Blaze Service user name to impersonate the user to run mapping",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            },
+                            {
+                                "name": "connectionconfighadoopsparkdir",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Spark HDFS staging directory",
+                                "defaultValue": "/tmp/sparkdir",
+                                "toolTip": "Hadoop Spark HDFS staging directory ",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }, 
+                            {
+                                "name": "connectionconfighadoopsparkeventlogdir",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Spark Event Log Directory",
+                                "defaultValue": "",
+                                "toolTip": "Hadoop Spark Event Log Directory ",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }, 
+                            {
+                                "name": "connectionconfighadoopsparkparam",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Hadoop Spark Execution Parameters",
+                                "defaultValue": "",
+                                "toolTip": "Hadoop Spark Execution Parameters",
+                                "constraints": {
+                                    "required": false,
+                                    "regex": "^[a-z0-9A-Z_]{3,30}$",
+                                    "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
+                                }
+
+                            }  
+
+
+                        ]
+                    }
+                ]
+            },
+                {
+                    "name": "infraConfiguration",
+                    "label": "Infrastructure Settings",
+                    "subLabel": {
+                        "preValidation": "Configure Storage and VNET settings",
+                        "postValidation": "Done"
+                    },
+                    "bladeTitle": "Infrastructure Settings",
+                    "elements": [
+                        {
+                            "name": "storageAccount",
+                            "type": "Microsoft.Storage.StorageAccountSelector",
+                            "label": "Storage account",
+                            "toolTip": "Storage account used for the machines",
+                            "defaultValue": {
+                                "type": "Standard_LRS"
+                            }
+                        },
+                        {
+                            "name": "infavnet",
+                            "type": "Microsoft.Network.VirtualNetworkCombo",
+                            "label": {
+                                "virtualNetwork": "Virtual network",
+                                "subnets": "Subnets"
+                            },
+                            "toolTip": {
+                                "virtualNetwork": "Virtual network all resource required to be part of",
+                                "subnets": ""
+                            },
+                            "defaultValue": {
+                                "name": "InfaVNET",
+                                "addressPrefixSize": "/16"
+                            },
+                            "constraints": {
+                                "minAddressPrefixSize": "/30"
+                            },
+                            "subnets": {
+                                "subnet1": {
+                                    "label": "Subnet",
+                                    "defaultValue": {
+                                        "name": "InfaSubnet",
+                                        "addressPrefixSize": "/24"
+                                    },
+                                    "constraints": {
+                                        "minAddressPrefixSize": "/30",
+                                        "minAddressCount": "[add(steps('nodeVMConfiguration').domainNodeCount, 1)]",
+                                        "requireContiguousAddresses": true
+                                    }
                                 }
                             }
                         }
-                    }
-                ]
-            }
-        ],
+                    ]
+                }
+                ],
 
-        "outputs": {
-            "location": "[location()]",
-            "VMCount": "[steps('nodeVMConfiguration').domainNodeCount]",
-            "VMNamePrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
-            "VMAdminUserName": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
-            "VMAuthType": "[steps('nodeVMConfiguration').nodeVMAdminPassword.authenticationType]",
-            "VMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword.password]",
-            "VMAdminSshPublicKey": "[steps('nodeVMConfiguration').nodeVMAdminPassword.sshPublicKey]",
-            "NodeVMSize": "[steps('nodeVMConfiguration').nodeVMSize]",
-            "InfaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
-            "InfaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
-            "InfaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
-            "InfaKeyWord": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
-            "VM01Name": "[steps('databaseConfiguration').databaseName]",
-            "DBVMSize": "[steps('databaseConfiguration').databaseVMSize]",
-            "databaseType": "[steps('databaseConfiguration').databaseType]",
-            "VM01AdminUsername": "[steps('databaseConfiguration').dbVMAdminUsername]",
-            "VM01AdminPassword": "[steps('databaseConfiguration').dbVMAdminPassword.password]",
-            "DBUser": "[steps('databaseConfiguration').infaDomainDBUser]",
-            "DBPassword": "[steps('databaseConfiguration').infaDomainDBPassword]",
-            "storageName": "[steps('infraConfiguration').storageAccount.name]",
-            "storageType": "[steps('infraConfiguration').storageAccount.type]",
-            "storageExistingOrNew": "[steps('infraConfiguration').storageAccount.newOrExisting]",
-            "existingStorageRG": "[steps('infraConfiguration').storageAccount.resourceGroup]",
-            "vnetName": "[steps('infraConfiguration').infavnet.name]",
-            "vnetAddressPrefix": "[steps('infraConfiguration').infavnet.addressPrefix]",
-            "vnetExistingOrNew": "[steps('infraConfiguration').infavnet.newOrExisting]",
-            "existingVnetRG": "[steps('infraConfiguration').infavnet.resourceGroup]",
-            "subnetName": "[steps('infraConfiguration').infavnet.subnets.subnet1.name]",
-            "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",
-            "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
-			"HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
-			"HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
-			"HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
-			"HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
-			"HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
-			"Clusterjobhistory": "[steps('infaBDEConfiguration').Clusterjobhistory]",
-			"Clusterjobhistorywebapp": "[steps('infaBDEConfiguration').Clusterjobhistorywebapp]",
-			"ClusterRMSaddress": "[steps('infaBDEConfiguration').ClusterRMSaddress]",
-			"ClusterRMWaddress": "[steps('infaBDEConfiguration').ClusterRMWaddress]"
-        }
+                "outputs": {
+                    "location": "[location()]",
+                    "nodeVMCount": "[steps('nodeVMConfiguration').domainNodeCount]",
+                    "nodeVMNamePrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
+                    "nodeVMAuthType": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminPasswordWin.authenticationType, steps('nodeVMConfiguration').nodeVMAdminPasswordLin.authenticationType)]",
+                    "nodeVMAdminUsername": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminUsernameWin, steps('nodeVMConfiguration').nodeVMAdminUsernameLin)]",
+                    "nodeVMAdminPassword": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminPasswordWin.password, steps('nodeVMConfiguration').nodeVMAdminPasswordLin.password)]",
+                    "nodeVMAdminSshPublicKey": "[steps('nodeVMConfiguration').nodeVMAdminPasswordLin.sshPublicKey]",
+                    "nodeVMSize": "[steps('nodeVMConfiguration').nodeVMSize]",
+                    "nodeVMOS": "[steps('nodeVMConfiguration').nodeVMOS]",
+                    "infaVersion": "[steps('infaDomainConfiguration').infaVersion]",
+                    "infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
+                    "infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
+                    "infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
+                    "infaDomainLicense": "[steps('infaDomainConfiguration').infaDomainLicense]",
+                    "infaKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
+                    "dbVMName": "[steps('databaseConfiguration').databaseconfig.databaseName]",
+                    "dbVMSize": "[steps('databaseConfiguration').databaseconfig.databaseVMSize]",
+                    "dbType": "[steps('databaseConfiguration').databaseconfig.databaseType]",
+                    "dbVMAdminUsername": "[steps('databaseConfiguration').databaseconfig.dbVMAdminUsername]",
+                    "dbVMAdminPassword": "[steps('databaseConfiguration').databaseconfig.dbVMAdminPassword.password]",
+                    "dbUser": "[steps('databaseConfiguration').databaseuser.infaDomainDBUser]",
+                    "dbPassword": "[steps('databaseConfiguration').databaseuser.infaDomainDBPassword]",
+                    "storageName": "[steps('infraConfiguration').storageAccount.name]",
+                    "storageType": "[steps('infraConfiguration').storageAccount.type]",
+                    "storageExistingOrNew": "[steps('infraConfiguration').storageAccount.newOrExisting]",
+                    "existingStorageRG": "[steps('infraConfiguration').storageAccount.resourceGroup]",
+                    "vnetName": "[steps('infraConfiguration').infavnet.name]",
+                    "vnetAddressPrefix": "[steps('infraConfiguration').infavnet.addressPrefix]",
+                    "vnetExistingOrNew": "[steps('infraConfiguration').infavnet.newOrExisting]",
+                    "existingVnetRG": "[steps('infraConfiguration').infavnet.resourceGroup]",
+                    "subnetName": "[steps('infraConfiguration').infavnet.subnets.subnet1.name]",
+                    "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",   
+					
+                    "hdfsusernamevar": "[steps('connectionconfighdfs').hdfsusername]",
+                    "hbasezookeepernamevar": "[steps('connectionconfighbase').hbasezookeepername]",
+                    "hbasezookeeperportvar": "[steps('connectionconfighbase').hbasezookeeperport]",
+                    "connectionconfighadoopimpuservar": "[steps('connectionconfighadoop').connectionconfighadoopimpuser]",
+                    "connectionconfighadoopblazetempdirvar": "[steps('connectionconfighadoop').connectionconfighadoopblazetempdir]",
+                    "connectionconfighadoopblazeusernamevar": "[steps('connectionconfighadoop').connectionconfighadoopblazeusername]",
+                    "connectionconfighadoopsparkdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkdir]",
+                    "connectionconfighadoopsparkeventlogdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkeventlogdir]",
+                    "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",					
+                    "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
+			        "HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
+			        "HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
+			        "HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
+			        "HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
+			        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
+					"infamrsservicename": "[steps('infaDomainServicesConfiguration').infamrsservicename]",
+					"infadisservicename": "[steps('infaDomainServicesConfiguration').infadisservicename]",
+					"infamrsuserName": "[steps('infaDomainServicesConfiguration').infamrsuserName]",
+					"infamrspassword": "[steps('infaDomainServicesConfiguration').infamrspassword]"				
+
+
+                }
+            }
     }
-}

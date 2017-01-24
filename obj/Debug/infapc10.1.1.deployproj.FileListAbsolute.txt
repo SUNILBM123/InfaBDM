@@ -1,3 +1,0 @@
-C:\Build\P4WS\azuretemplate\infapc10.1.1\infapc10.1.1\bin\Debug\azuredeploy.json
-C:\Build\P4WS\azuretemplate\infapc10.1.1\infapc10.1.1\bin\Debug\azuredeploy.parameters.json
-C:\Build\P4WS\azuretemplate\infapc10.1.1\infapc10.1.1\bin\Debug\Deploy-AzureResourceGroup.ps1
