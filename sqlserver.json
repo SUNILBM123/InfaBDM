@@ -23,9 +23,15 @@
         "dbUser": {
             "type": "string"
         },
-        "dbPassword": {
-            "type": "securestring"
-        },
+      "dbPassword": {
+        "type": "securestring"
+      },
+      "mrsdbuser": {
+        "type": "string"
+      },
+      "mrsdbpwd": {
+        "type": "securestring"
+      },
         "vnetName": {
             "type": "string"
         },
@@ -37,6 +43,18 @@
         },
         "baseUrl": {
             "type": "string"
+        },
+        "_artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+            }
+        },
+        "_artifactsLocationSasToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Auto-generated token to access _artifactsLocation"
+            }
         }
     },
     "variables": {
@@ -51,7 +69,11 @@
 
         "imagePublisher": "informatica",
         "imageOffer": "sqlserver-2014-image",
-        "osVersion": "sqlserver-2014-image-for-pc-bdm"
+        "osVersion": "sqlserver-2014-image-for-pc-bdm",
+        "MRSUserScriptFolder": "CustomScripts",
+        "MRSUserScriptFileName": "MRSUser.ps1",
+        "MRSUser2ScriptFolder": "CustomScripts",
+        "MRSUser2ScriptFileName": "MRSUser2.sh"
     },
     "resources": [
         {
@@ -98,84 +120,113 @@
                 ]
             }
         },
-        {
-            "name": "[parameters('dbVMName')]",
-            "type": "Microsoft.Compute/virtualMachines",
+      {
+        "name": "[parameters('dbVMName')]",
+        "type": "Microsoft.Compute/virtualMachines",
+        "location": "[parameters('location')]",
+        "apiVersion": "2016-03-30",
+        "dependsOn": [
+          "[concat('Microsoft.Network/networkInterfaces/', variables('dbVMNicName'))]"
+        ],
+        "plan": {
+          "name": "[variables('osVersion')]",
+          "publisher": "[variables('imagePublisher')]",
+          "product": "[variables('imageOffer')]"
+        },
+        "tags": {
+          "displayName": "VM01"
+        },
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "[parameters('DBVMSize')]"
+          },
+          "osProfile": {
+            "computerName": "[parameters('dbVMName')]",
+            "adminUsername": "[parameters('dbVMAdminUsername')]",
+            "adminPassword": "[parameters('dbVMAdminPassword')]"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "[variables('imagePublisher')]",
+              "offer": "[variables('imageOffer')]",
+              "sku": "[variables('osVersion')]",
+              "version": "latest"
+            },
+            "osDisk": {
+              "name": "InfaOSDisk",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "vhd": {
+                "uri": "[concat('https://', parameters('storageName'), '.blob.core.windows.net/vhds/', parameters('dbVMName'), uniquestring(resourceGroup().id), '.osdisk.vhd')]"
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('dbVMNicName'))]"
+              }
+            ]
+          }
+        },
+        "resources": [
+          {
+            "name": "ScriptExtDB",
+            "type": "extensions",
             "location": "[parameters('location')]",
             "apiVersion": "2016-03-30",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('dbVMNicName'))]"
+              "[concat('Microsoft.Compute/virtualMachines/', parameters('dbVMName'))]"
             ],
-            "plan": {
-                "name": "[variables('osVersion')]",
-                "publisher": "[variables('imagePublisher')]",
-                "product": "[variables('imageOffer')]"
-            },
             "tags": {
-                "displayName": "VM01"
+              "displayName": "ScriptExtDB"
             },
             "properties": {
-                "hardwareProfile": {
-                    "vmSize": "[parameters('DBVMSize')]"
-                },
-                "osProfile": {
-                    "computerName": "[parameters('dbVMName')]",
-                    "adminUsername": "[parameters('dbVMAdminUsername')]",
-                    "adminPassword": "[parameters('dbVMAdminPassword')]"
-                },
-                "storageProfile": {
-                    "imageReference": {
-                        "publisher": "[variables('imagePublisher')]",
-                        "offer": "[variables('imageOffer')]",
-                        "sku": "[variables('osVersion')]",
-                        "version": "latest"
-                    },
-                    "osDisk": {
-                        "name": "InfaOSDisk",
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage",
-                        "vhd": {
-                            "uri": "[concat('https://', parameters('storageName'), '.blob.core.windows.net/vhds/', parameters('dbVMName'), uniquestring(resourceGroup().id), '.osdisk.vhd')]"
-                        }
-                    }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('dbVMNicName'))]"
-                        }
-                    ]
-                }
+              "publisher": "Microsoft.Compute",
+              "type": "CustomScriptExtension",
+              "typeHandlerVersion": "1.8",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "fileUris": [
+                  "[concat(variables('ExtScriptURI'),  variables('extScriptFile'))]"
+                ]
+              },
+              "protectedSettings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('extScriptFile'), ' -dbUserName \"', parameters('DBUser'), '\" -dbPassword \"', parameters('DBPassword'), '\"')]"
+
+              }
+            }
+          },
+          {
+            "name": "MRSDBExecutor",
+            "type": "extensions",
+            "location": "[parameters('location')]",
+            "apiVersion": "2016-03-30",
+            "dependsOn": [
+              "[concat('Microsoft.Compute/virtualMachines/', parameters('dbVMName'))]"
+            ],
+            "tags": {
+              "displayName": "MRSDBExecutor"
             },
-            "resources": [
-                {
-                    "name": "ScriptExtDB",
-                    "type": "extensions",
-                    "location": "[parameters('location')]",
-                    "apiVersion": "2016-03-30",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', parameters('dbVMName'))]"
-                    ],
-                    "tags": {
-                        "displayName": "ScriptExtDB"
-                    },
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.8",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "[concat(variables('ExtScriptURI'),  variables('extScriptFile'))]"
-                            ]
-                        },
-                        "protectedSettings": {
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('extScriptFile'), ' -dbUserName \"', parameters('DBUser'), '\" -dbPassword \"', parameters('DBPassword'), '\"')]"
-                        }
-                    }
-                }
-            ]
-        }
+            "properties": {
+              "publisher": "Microsoft.Compute",
+              "type": "CustomScriptExtension",
+              "typeHandlerVersion": "1.8",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "fileUris": [
+                  "[concat(variables('ExtScriptURI'),  variables('extScriptFile'))]"
+                ]
+              },
+              "protectedSettings": {
+                "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('extScriptFile'), ' -dbUserName \"', parameters('mrsdbuser'), '\" -dbPassword \"', parameters('mrsdbpwd'), '\"')]"
+
+              }
+            }
+          }
+        ]
+
+      }
     ],
     "outputs": {
         "fqdn": {
