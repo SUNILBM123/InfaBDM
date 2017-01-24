@@ -407,7 +407,7 @@
                             "required": true,
                             "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
                             "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
-                        }
+                        },
 						 "options": {
                                     "hideConfirmation": true
                           }
@@ -447,7 +447,7 @@
                             "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
                             "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
 
-                        }
+                        },
 						 "options": {
                                     "hideConfirmation": true
                           }
@@ -771,25 +771,17 @@
                     "connectionconfighadoopblazeusernamevar": "[steps('connectionconfighadoop').connectionconfighadoopblazeusername]",
                     "connectionconfighadoopsparkdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkdir]",
                     "connectionconfighadoopsparkeventlogdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkeventlogdir]",
-                    "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",
-					
+                    "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",					
                     "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
 			        "HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
 			        "HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
 			        "HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
 			        "HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
 			        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
-
 					"infamrsservicename": "[steps('infaDomainServicesConfiguration').infamrsservicename]",
 					"infadisservicename": "[steps('infaDomainServicesConfiguration').infadisservicename]",
 					"infamrsuserName": "[steps('infaDomainServicesConfiguration').infamrsuserName]",
-					"infamrspassword": "[steps('infaDomainServicesConfiguration').infamrspassword]"					
-
-
-
-
-
-					
+					"infamrspassword": "[steps('infaDomainServicesConfiguration').infamrspassword]"				
 
 
                 }
