@@ -1,84 +1,138 @@
 ﻿{
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "location": {
-            "type": "string"
-        },
-        "storageName": {
-            "type": "string"
-        },
-        "storageID": {
-            "type": "string"
-        },
-        "vnetName": {
-            "type": "string"
-        },
-        "subnetName": {
-            "type": "string"
-        },
-        "subnetId": {
-            "type": "string"
-        },
-        "dbVMName": {
-            "type": "string"
-        },
-        "dbUser": {
-            "type": "string"
-        },
-        "dbPassword": {
-            "type": "securestring"
-        },
-        "nodeVMSize": {
-            "type": "string"
-        },
-        "nodeVMOSType": {
-            "type": "string"
-        },
-        "nodeVMAdminUsername": {
-            "type": "string",
-            "minLength": 1
-        },
-        "nodeVMAdminPassword": {
-            "type": "securestring"
-        },
-        "nodeVMAdminSshPublicKey": {
-            "type": "securestring"
-        },
-        "nodeVMNamePrefix": {
-            "type": "string",
-            "minLength": 1
-        },
-        "nodeVMCount": {
-            "type": "int"
-        },
-        "infaDomainName": {
-            "type": "string",
-            "minLength": 4
-        },
-        "infaDomainUser": {
-            "type": "string",
-            "minLength": 4
-        },
-        "infaDomainPassword": {
-            "type": "securestring",
-            "minLength": 4
-        },
-        "infaNodeNamePrefix": {
-            "type": "string",
-            "minLength": 4
-        },
-        "infaKeyword": {
-            "type": "securestring",
-            "minLength": 4
-        },
-        "infaDomainLicense": { 
-            "type": "securestring"
-        },
-        "baseUrl": {
-            "type": "string"
-        }
+  "parameters": {
+    "location": {
+      "type": "string"
     },
+    "storageName": {
+      "type": "string"
+    },
+    "storageID": {
+      "type": "string"
+    },
+    "vnetName": {
+      "type": "string"
+    },
+    "subnetName": {
+      "type": "string"
+    },
+    "subnetId": {
+      "type": "string"
+    },
+    "dbVMName": {
+      "type": "string"
+    },
+    "dbUser": {
+      "type": "string"
+    },
+    "dbPassword": {
+      "type": "securestring"
+    },
+    "nodeVMSize": {
+      "type": "string"
+    },
+    "nodeVMOSType": {
+      "type": "string"
+    },
+    "nodeVMAdminUsername": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nodeVMAdminPassword": {
+      "type": "securestring"
+    },
+    "nodeVMAdminSshPublicKey": {
+      "type": "securestring"
+    },
+    "nodeVMNamePrefix": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nodeVMCount": {
+      "type": "int"
+    },
+    "infaDomainName": {
+      "type": "string",
+      "minLength": 4
+    },
+    "infaDomainUser": {
+      "type": "string",
+      "minLength": 4
+    },
+    "infaDomainPassword": {
+      "type": "securestring",
+      "minLength": 4
+    },
+    "infaNodeNamePrefix": {
+      "type": "string",
+      "minLength": 4
+    },
+    "infaKeyword": {
+      "type": "securestring",
+      "minLength": 4
+    },
+    "infaDomainLicense": {
+      "type": "securestring"
+    },
+    "baseUrl": {
+      "type": "string"
+    },
+    "MRSName": {
+      "type": "string"
+    },
+    "MRSDBUser": {
+      "type": "string"
+    },
+    "MRSDBPwd": {
+      "type": "securestring"
+    },
+    "DISName": {
+      "type": "string"
+    },
+    "HDIClusterName": {
+      "type": "string"
+    },
+    "HDIClusterLoginUsername": {
+      "type": "string"
+    },
+    "HDIClusterLoginPassword": {
+      "type": "securestring"
+    },
+    "HDIClusterSSHHostname": {
+      "type": "string"
+    },
+    "HDIClusterSSHUsername": {
+      "type": "string"
+    },
+    "HDIClusterSSHPassword": {
+      "type": "securestring"
+    },
+    "hdfsusernamevar": {
+      "type": "string"
+    },
+    "hbasezookeepernamevar": {
+      "type": "string"
+    },
+    "hbasezookeeperportvar": {
+      "type": "string"
+    },
+    "connectionconfighadoopimpuservar": {
+      "type": "string"
+    },
+    "connectionconfighadoopblazeusernamevar": {
+      "type": "string"
+    },
+    "connectionconfighadoopsparkdirvar": {
+      "type": "string"
+    },
+    "connectionconfighadoopsparkeventlogdirvar": {
+      "type": "string"
+    },
+    "connectionconfighadoopsparkparamvar": {
+      "type": "string"
+    }
+  },
     "variables": {
         "index": 0,
         "nodeVMDNSName": "[toLower(concat(parameters('nodeVMNamePrefix'), add(variables('Index'), 1), uniqueString(resourceGroup().id)))]",

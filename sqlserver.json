@@ -1,50 +1,50 @@
 ﻿{
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "location": {
-            "type": "string"
-        },
-        "storageName": {
-            "type": "string"
-        },
-        "dbVMName": {
-            "type": "string"
-        },
-        "dbVMAdminUsername": {
-            "type": "string"
-        },
-        "dbVMAdminPassword": {
-            "type": "securestring"
-        },
-        "dbVMSize": {
-            "type": "string"
-        },
-        "dbUser": {
-            "type": "string"
-        },
-      "dbPassword": {
-        "type": "securestring"
-      },
-      "mrsdbuser": {
-        "type": "string"
-      },
-      "mrsdbpwd": {
-        "type": "securestring"
-      },
-        "vnetName": {
-            "type": "string"
-        },
-        "subnetName": {
-            "type": "string"
-        },
-        "subnetId": {
-            "type": "string"
-        },
-        "baseUrl": {
-            "type": "string"
-        }
+  "parameters": {
+    "location": {
+      "type": "string"
     },
+    "storageName": {
+      "type": "string"
+    },
+    "dbVMName": {
+      "type": "string"
+    },
+    "dbVMAdminUsername": {
+      "type": "string"
+    },
+    "dbVMAdminPassword": {
+      "type": "securestring"
+    },
+    "dbVMSize": {
+      "type": "string"
+    },
+    "dbUser": {
+      "type": "string"
+    },
+    "dbPassword": {
+      "type": "securestring"
+    },
+    "mrsdbuser": {
+      "type": "string"
+    },
+    "mrsdbpwd": {
+      "type": "securestring"
+    },
+    "vnetName": {
+      "type": "string"
+    },
+    "subnetName": {
+      "type": "string"
+    },
+    "subnetId": {
+      "type": "string"
+    },
+    "baseUrl": {
+      "type": "string"
+    }
+  },
     "variables": {
         "publicDNSName": "[toLower(concat(parameters('dbVMName'), uniqueString(resourceGroup().id)))]",
         "dbVMNicName": "[concat(parameters('dbVMName'), 'Nic')]",

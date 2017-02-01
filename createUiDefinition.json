@@ -436,28 +436,40 @@
                             "validationMessage": "The SSH username must be at least two characters in length and can only consist of digits, upper or lowercase letters, and/or the following special characters: # $ % & ' ( ) - ^ _ ` { } ~"
                         }
                     },
-                    {
-                        "name": "HDIClusterSSHPassword",
-                        "type": "Microsoft.Common.PasswordBox",
-                        "label": "HDInsight Cluster SSH Password",
-                        "defaultValue": "",
-                        "toolTip": "HDInsight cluster's headnode SSH password",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
-                            "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+                  {
+                    "name": "HDIClusterSSHPassword",
+                    "type": "Microsoft.Common.PasswordBox",
+                    "label": "HDInsight Cluster SSH Password",
+                    "defaultValue": "",
+                    "toolTip": "HDInsight cluster's headnode SSH password",
+                    "constraints": {
+                      "required": true,
+                      "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^\\s\\w]).{10,123}$",
+                      "validationMessage": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
 
-                        },
-						 "options": {
-                                    "hideConfirmation": true
-                          }
+                    },
+                    "options": {
+                      "hideConfirmation": true
                     }
-                   
-                   
-                    
-                    
-                ]
-            },
+                  },
+                  {
+                    "name": "AmbariPort",
+                    "type": "Microsoft.Common.TextBox",
+                    "label": "Ambari port",
+                    "defaultValue": "8080",
+                    "toolTip": "HDInsight cluster's Ambari port",
+                    "constraints": {
+                      "required": true,
+                      "regex": "[0-9]",
+                      "validationMessage" :  "Field should contain only numeric values"
+                    }
+                    }
+
+
+
+
+                    ]
+                  },
             {
                 "label": "Informatica BDM Services Setting",
                 "name": "infaDomainServicesConfiguration",
@@ -729,61 +741,63 @@
                 }
                 ],
 
-                "outputs": {
-                    "location": "[location()]",
-                    "nodeVMCount": "[steps('nodeVMConfiguration').domainNodeCount]",
-                    "nodeVMNamePrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
-                    "nodeVMAuthType": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminPasswordWin.authenticationType, steps('nodeVMConfiguration').nodeVMAdminPasswordLin.authenticationType)]",
-                    "nodeVMAdminUsername": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminUsernameWin, steps('nodeVMConfiguration').nodeVMAdminUsernameLin)]",
-                    "nodeVMAdminPassword": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminPasswordWin.password, steps('nodeVMConfiguration').nodeVMAdminPasswordLin.password)]",
-                    "nodeVMAdminSshPublicKey": "[steps('nodeVMConfiguration').nodeVMAdminPasswordLin.sshPublicKey]",
-                    "nodeVMSize": "[steps('nodeVMConfiguration').nodeVMSize]",
-                    "nodeVMOS": "[steps('nodeVMConfiguration').nodeVMOS]",
-                    "infaVersion": "[steps('infaDomainConfiguration').infaVersion]",
-                    "infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
-                    "infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
-                    "infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
-                    "infaDomainLicense": "[steps('infaDomainConfiguration').infaDomainLicense]",
-                    "infaKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
-                    "dbVMName": "[steps('databaseConfiguration').databaseconfig.databaseName]",
-                    "dbVMSize": "[steps('databaseConfiguration').databaseconfig.databaseVMSize]",
-                    "dbType": "[steps('databaseConfiguration').databaseconfig.databaseType]",
-                    "dbVMAdminUsername": "[steps('databaseConfiguration').databaseconfig.dbVMAdminUsername]",
-                    "dbVMAdminPassword": "[steps('databaseConfiguration').databaseconfig.dbVMAdminPassword.password]",
-                    "dbUser": "[steps('databaseConfiguration').databaseuser.infaDomainDBUser]",
-                    "dbPassword": "[steps('databaseConfiguration').databaseuser.infaDomainDBPassword]",
-                    "storageName": "[steps('infraConfiguration').storageAccount.name]",
-                    "storageType": "[steps('infraConfiguration').storageAccount.type]",
-                    "storageExistingOrNew": "[steps('infraConfiguration').storageAccount.newOrExisting]",
-                    "existingStorageRG": "[steps('infraConfiguration').storageAccount.resourceGroup]",
-                    "vnetName": "[steps('infraConfiguration').infavnet.name]",
-                    "vnetAddressPrefix": "[steps('infraConfiguration').infavnet.addressPrefix]",
-                    "vnetExistingOrNew": "[steps('infraConfiguration').infavnet.newOrExisting]",
-                    "existingVnetRG": "[steps('infraConfiguration').infavnet.resourceGroup]",
-                    "subnetName": "[steps('infraConfiguration').infavnet.subnets.subnet1.name]",
-                    "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",   
-					
-                    "hdfsusernamevar": "[steps('connectionconfighdfs').hdfsusername]",
-                    "hbasezookeepernamevar": "[steps('connectionconfighbase').hbasezookeepername]",
-                    "hbasezookeeperportvar": "[steps('connectionconfighbase').hbasezookeeperport]",
-                    "connectionconfighadoopimpuservar": "[steps('connectionconfighadoop').connectionconfighadoopimpuser]",
-                    "connectionconfighadoopblazetempdirvar": "[steps('connectionconfighadoop').connectionconfighadoopblazetempdir]",
-                    "connectionconfighadoopblazeusernamevar": "[steps('connectionconfighadoop').connectionconfighadoopblazeusername]",
-                    "connectionconfighadoopsparkdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkdir]",
-                    "connectionconfighadoopsparkeventlogdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkeventlogdir]",
-                    "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",					
-                    "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
-			        "HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
-			        "HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
-			        "HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
-			        "HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
-			        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
-					"infamrsservicename": "[steps('infaDomainServicesConfiguration').infamrsservicename]",
-					"infadisservicename": "[steps('infaDomainServicesConfiguration').infadisservicename]",
-					"infamrsuserName": "[steps('infaDomainServicesConfiguration').infamrsuserName]",
-					"infamrspassword": "[steps('infaDomainServicesConfiguration').infamrspassword]"				
+      "outputs": {
+        "location": "[location()]",
+        "nodeVMCount": "[steps('nodeVMConfiguration').domainNodeCount]",
+        "nodeVMNamePrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
+        "nodeVMAuthType": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminPasswordWin.authenticationType, steps('nodeVMConfiguration').nodeVMAdminPasswordLin.authenticationType)]",
+        "nodeVMAdminUsername": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminUsernameWin, steps('nodeVMConfiguration').nodeVMAdminUsernameLin)]",
+        "nodeVMAdminPassword": "[coalesce(steps('nodeVMConfiguration').nodeVMAdminPasswordWin.password, steps('nodeVMConfiguration').nodeVMAdminPasswordLin.password)]",
+        "nodeVMAdminSshPublicKey": "[steps('nodeVMConfiguration').nodeVMAdminPasswordLin.sshPublicKey]",
+        "nodeVMSize": "[steps('nodeVMConfiguration').nodeVMSize]",
+        "nodeVMOS": "[steps('nodeVMConfiguration').nodeVMOS]",
+        "infaVersion": "[steps('infaDomainConfiguration').infaVersion]",
+        "infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
+        "infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
+        "infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
+        "infaDomainLicense": "[steps('infaDomainConfiguration').infaDomainLicense]",
+        "infaKeyword": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
+        "dbVMName": "[steps('databaseConfiguration').databaseconfig.databaseName]",
+        "dbVMSize": "[steps('databaseConfiguration').databaseconfig.databaseVMSize]",
+        "dbType": "[steps('databaseConfiguration').databaseconfig.databaseType]",
+        "dbVMAdminUsername": "[steps('databaseConfiguration').databaseconfig.dbVMAdminUsername]",
+        "dbVMAdminPassword": "[steps('databaseConfiguration').databaseconfig.dbVMAdminPassword.password]",
+        "dbUser": "[steps('databaseConfiguration').databaseuser.infaDomainDBUser]",
+        "dbPassword": "[steps('databaseConfiguration').databaseuser.infaDomainDBPassword]",
+        "storageName": "[steps('infraConfiguration').storageAccount.name]",
+        "storageType": "[steps('infraConfiguration').storageAccount.type]",
+        "storageExistingOrNew": "[steps('infraConfiguration').storageAccount.newOrExisting]",
+        "existingStorageRG": "[steps('infraConfiguration').storageAccount.resourceGroup]",
+        "vnetName": "[steps('infraConfiguration').infavnet.name]",
+        "vnetAddressPrefix": "[steps('infraConfiguration').infavnet.addressPrefix]",
+        "vnetExistingOrNew": "[steps('infraConfiguration').infavnet.newOrExisting]",
+        "existingVnetRG": "[steps('infraConfiguration').infavnet.resourceGroup]",
+        "subnetName": "[steps('infraConfiguration').infavnet.subnets.subnet1.name]",
+        "subnetPrefix": "[steps('infraConfiguration').infavnet.subnets.subnet1.addressPrefix]",
+
+        "hdfsusernamevar": "[steps('connectionconfighdfs').hdfsusername]",
+        "hbasezookeepernamevar": "[steps('connectionconfighbase').hbasezookeepername]",
+        "hbasezookeeperportvar": "[steps('connectionconfighbase').hbasezookeeperport]",
+        "connectionconfighadoopimpuservar": "[steps('connectionconfighadoop').connectionconfighadoopimpuser]",
+        "connectionconfighadoopblazetempdirvar": "[steps('connectionconfighadoop').connectionconfighadoopblazetempdir]",
+        "connectionconfighadoopblazeusernamevar": "[steps('connectionconfighadoop').connectionconfighadoopblazeusername]",
+        "connectionconfighadoopsparkdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkdir]",
+        "connectionconfighadoopsparkeventlogdirvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkeventlogdir]",
+        "connectionconfighadoopsparkparamvar": "[steps('connectionconfighadoop').connectionconfighadoopsparkparam]",
+        "HDIClusterName": "[steps('infaBDEConfiguration').HDIClusterName]",
+        "HDIClusterLoginUsername": "[steps('infaBDEConfiguration').HDIClusterLoginUsername]",
+        "HDIClusterLoginPassword": "[steps('infaBDEConfiguration').HDIClusterLoginPassword]",
+        "HDIClusterSSHHostname": "[steps('infaBDEConfiguration').HDIClusterSSHHostname]",
+        "HDIClusterSSHUsername": "[steps('infaBDEConfiguration').HDIClusterSSHUsername]",
+        "HDIClusterSSHPassword": "[steps('infaBDEConfiguration').HDIClusterSSHPassword]",
+        "infamrsservicename": "[steps('infaDomainServicesConfiguration').infamrsservicename]",
+        "infadisservicename": "[steps('infaDomainServicesConfiguration').infadisservicename]",
+        "infamrsuserName": "[steps('infaDomainServicesConfiguration').infamrsuserName]",
+        "infamrspassword": "\"[steps('infaDomainServicesConfiguration').infamrspassword],",
+        "HDIClusterAmbariport": "[steps('infaBDEConfiguration').AmbariPort]"
 
 
-                }
+
+      }
             }
     }
