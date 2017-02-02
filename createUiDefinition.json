@@ -460,8 +460,8 @@
                     "toolTip": "HDInsight cluster's Ambari port",
                     "constraints": {
                       "required": true,
-                      "regex": "[0-9]",
-                      "validationMessage" :  "Field should contain only numeric values"
+                      "regex": "^[0-9]$",
+                      "validationMessage": "Field should contain only numeric values"
                     }
                     }
 
@@ -564,39 +564,53 @@
                             }
                         ]
                     },
+                  {
+                    "name": "connectionconfighbase",
+                    "type": "Microsoft.Common.Section",
+                    "label": "HBase Connection configuration",
+                    "elements": [
                       {
-                        "name": "connectionconfighbase",
-                        "type": "Microsoft.Common.Section",
-                        "label": "HBase Connection configuration",
-                        "elements": [
-                            {
-                                "name": "hbasezookeepername",
-                                "type": "Microsoft.Common.TextBox",
-                                "label": "HBase Zookeeper Hosts",
-                                "defaultValue": "zookeeper_Hosts",
-                                "toolTip": "Hosts Names for Zookeeper, must be a comma saperated Values",
-                                "constraints": {
-                                    "required": true,
-                                    "regex": "^[a-z0-9A-Z]$",
-                                    "validationMessage": "Only alphanumeric characters are allowed."
-                                }
+                        "name": "hbasezookeepername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "HBase Zookeeper Hosts",
+                        "defaultValue": "zookeeper_Hosts",
+                        "toolTip": "Hosts Names for Zookeeper, must be a comma saperated Values",
+                        "constraints": {
+                          "required": true
+                                                   
+                        }
 
-                            },
-                            {
-                                "name": "hbasezookeeperport",
-                                "type": "Microsoft.Common.TextBox",
-                                "label": "HBase Zookeeper Port",
-                                "defaultValue": "2181",
-                                "toolTip": "Zookeeper Port for Hbase",
-                                "constraints": {
-                                    "required": true,
-                                    "regex": "^[0-9]$",
-                                    "validationMessage": "Only numbers are allowed."
-                                }
+                      }
 
-                            }
-                        ]
-                    },
+                    ]
+                  },
+                  {
+                    "name": "hiveconnectionconfig",
+                    "type": "Microsoft.Common.Section",
+                    "label": "Hive Connection configuration",
+                    "elements": [
+                      {
+                        "name": "hiveusername",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Hive User Name",
+                        "toolTip": "Hive User Name",
+                        "constraints": {
+                          "required" :  true
+                        }
+                      },
+                      {
+                        "name": "hiveexecutionMode",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Hive Execution Mode",
+                        "toolTip": "Expected value is either Remote or Local",
+                        "defaultValue": "Remote",
+                        "constraints": {
+                          "required": true
+                        }
+                      }
+                    ]
+
+                  },
                     {
                         "name": "connectionconfighadoop",
                         "type": "Microsoft.Common.Section",
@@ -777,7 +791,6 @@
 
         "hdfsusernamevar": "[steps('connectionconfighdfs').hdfsusername]",
         "hbasezookeepernamevar": "[steps('connectionconfighbase').hbasezookeepername]",
-        "hbasezookeeperportvar": "[steps('connectionconfighbase').hbasezookeeperport]",
         "connectionconfighadoopimpuservar": "[steps('connectionconfighadoop').connectionconfighadoopimpuser]",
         "connectionconfighadoopblazetempdirvar": "[steps('connectionconfighadoop').connectionconfighadoopblazetempdir]",
         "connectionconfighadoopblazeusernamevar": "[steps('connectionconfighadoop').connectionconfighadoopblazeusername]",
@@ -793,9 +806,10 @@
         "infamrsservicename": "[steps('infaDomainServicesConfiguration').infamrsservicename]",
         "infadisservicename": "[steps('infaDomainServicesConfiguration').infadisservicename]",
         "infamrsuserName": "[steps('infaDomainServicesConfiguration').infamrsuserName]",
-        "infamrspassword": "\"[steps('infaDomainServicesConfiguration').infamrspassword],",
-        "HDIClusterAmbariport": "[steps('infaBDEConfiguration').AmbariPort]"
-
+        "infamrspassword": "[steps('infaDomainServicesConfiguration').infamrspassword],",
+        "HDIClusterAmbariport": "[steps('infaBDEConfiguration').AmbariPort]",
+        "HIVEUserName": "[steps('hiveconnectionconfig').hiveusername]",
+        "HIVEExecutionMode": "steps('hiveconnectionconfig').hiveexecutionMode"
 
 
       }

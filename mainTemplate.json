@@ -272,9 +272,6 @@
     "hbasezookeepernamevar": {
       "type": "string"
     },
-    "hbasezookeeperportvar": {
-      "type": "string"
-    },
     "connectionconfighadoopimpuservar": {
       "type": "string"
     },
@@ -306,10 +303,15 @@
       "type": "string"
     },
     "HDIClusterAmbariport": {
-      "type" :  "string"
+      "type": "string"
+    },
+    "HIVEUserName": {
+         "type": "string"
+      },
+    "HIVEExecutionMode": {
+      "type": "string"
     }
-
-
+    
   },
     "variables": {
         "baseUri": "[concat(parameters('baseUrl'), '/')]",
@@ -584,9 +586,6 @@
                 "hbasezookeepernamevar": {
                   "value": "[parameters('hbasezookeepernamevar')]"
                 },
-                "hbasezookeeperportvar": {
-                  "value": "[parameters('hbasezookeeperportvar')]"
-                },
                 "connectionconfighadoopimpuservar": {
                   "value": "[parameters('connectionconfighadoopimpuservar')]"
                 },
@@ -604,6 +603,12 @@
                 },
                 "HDIClusterAmbariport": {
                   "value": "[parameters('HDIClusterAmbariport')]"
+                },
+                "HIVEUserName": {
+                  "value": "[parameters('HIVEUserName')]"
+                },
+                "HIVEExecutionMode": {
+                  "value": "[parameters('HIVEExecutionMode')]"
                 }
 
               }

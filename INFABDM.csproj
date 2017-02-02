@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+    <ProjectGuid>{168E6825-11B4-4A7B-8D9A-136F27E876C7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>ConsoleApplication</AssemblyName>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>INFABDM</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -38,6 +41,36 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="azuredeploy.json" />
+    <None Include="azuredeploy.parameters.json" />
+    <None Include="createsqldbuser.ps1" />
+    <None Include="createUiDefinition.json" />
+    <None Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="Deployment.targets" />
+    <None Include="lininfainstaller.sh" />
+    <None Include="mainTemplate.json" />
+    <None Include="nodelinuxpassword.json" />
+    <None Include="nodelinuxsshPublicKey.json" />
+    <None Include="nodemultilinuxpassword.json" />
+    <None Include="nodemultilinuxsshPublicKey.json" />
+    <None Include="nodemultiwindowspassword.json" />
+    <None Include="nodewindowspassword.json" />
+    <None Include="sample.json" />
+    <None Include="sqlserver.json" />
+    <None Include="sqlserver1.json" />
+    <None Include="storageexisting.json" />
+    <None Include="storagenew.json" />
+    <None Include="vnetexisting.json" />
+    <None Include="vnetnew.json" />
+    <None Include="wininfainstaller.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\" />
+    <Folder Include=".vs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
