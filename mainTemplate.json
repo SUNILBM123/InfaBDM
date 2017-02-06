@@ -244,9 +244,9 @@
       "type": "string",
       "metadata": {
         "description": "Base URL for Marketplace",
-        "artifactsBaseUrl": "https://raw.githubusercontent.com/vinay14111982/InfaInstaller_NonBDM/master/NonBDMInstallerARM/NonBDMInstallerARM/"
+        "artifactsBaseUrl": "https://raw.githubusercontent.com/SUNILBM123/InfaBDM/master/"
       },
-      "defaultValue": "https://raw.githubusercontent.com/vinay14111982/InfaInstaller_NonBDM/master/NonBDMInstallerARM/NonBDMInstallerARM/"
+      "defaultValue": "https://raw.githubusercontent.com/SUNILBM123/InfaBDM/master/"
     },
     "HDIClusterName": {
       "type": "string"
